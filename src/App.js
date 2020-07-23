@@ -1,10 +1,11 @@
 import React from "react";
 import "./App.css";
 
-/* 
-  Instead of manualling makng an API call I am going to use a library which abstracts pretty much every API call I could use.
-  It was developed by a Spotify engineer, hence why I'm using.
-*/
+// styling
+import Button from "react-bootstrap/Button";
+//Instead of manualling makng an API call I am going to use a library which abstracts pretty much every API call I could use.
+//It was developed by a Spotify engineer, hence why I'm using.
+
 import SpotifyWebApi from "spotify-web-api-js";
 const spotifyApi = new SpotifyWebApi();
 
@@ -58,15 +59,15 @@ class App extends React.Component {
     return (
       <div className="App">
         <a href="http://localhost:8888"> Login to Spotify </a>
-        <div>Now Playing: {this.state.nowPlaying.name}</div>
-        <div>Artist : {this.state.nowPlaying.artist}</div>
+        <div>{this.state.nowPlaying.name}</div>
+        <div>{this.state.nowPlaying.artist}</div>
         <div>
           <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
         </div>
         {this.state.loggedIn && (
-          <button onClick={() => this.getNowPlaying()}>
+          <Button variant="primary" onClick={() => this.getNowPlaying()}>
             Check Now Playing
-          </button>
+          </Button>
         )}
       </div>
     );
