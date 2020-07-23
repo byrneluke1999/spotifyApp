@@ -19,7 +19,7 @@ class App extends React.Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      nowPlaying: { name: "Not Checked", albumArt: "" },
+      nowPlaying: { name: "Not Checked", artist: "", albumArt: "" },
     };
   }
   getHashParams() {
@@ -40,17 +40,26 @@ class App extends React.Component {
       this.setState({
         nowPlaying: {
           name: response.item.name,
+          artist: response.item.artists[0].name,
           albumArt: response.item.album.images[0].url,
         },
       });
     });
   }
 
+  getTopTracks() {
+    spotifyApi
+      .getMyRecentlyPlayedTracks()
+      .then((response) => console.log(response));
+  }
+
   render() {
+    this.getTopTracks();
     return (
       <div className="App">
         <a href="http://localhost:8888"> Login to Spotify </a>
         <div>Now Playing: {this.state.nowPlaying.name}</div>
+        <div>Artist : {this.state.nowPlaying.artist}</div>
         <div>
           <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
         </div>
