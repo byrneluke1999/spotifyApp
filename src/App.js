@@ -3,6 +3,8 @@ import "./App.css";
 
 // styling
 import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
+
 //Instead of manualling makng an API call I am going to use a library which abstracts pretty much every API call I could use.
 //It was developed by a Spotify engineer, hence why I'm using.
 
@@ -21,6 +23,7 @@ class App extends React.Component {
     this.state = {
       loggedIn: token ? true : false,
       nowPlaying: { name: "Not Checked", artist: "", albumArt: "" },
+      topTracks: [],
     };
   }
   getHashParams() {
@@ -50,12 +53,11 @@ class App extends React.Component {
 
   getTopTracks() {
     spotifyApi
-      .getMyRecentlyPlayedTracks()
-      .then((response) => console.log(response));
+      .getMyTopTracks()
+      .then((response) => this.setState({ topTracks: response.items }));
   }
 
   render() {
-    this.getTopTracks();
     return (
       <div className="App">
         <a href="http://localhost:8888"> Login to Spotify </a>
@@ -64,9 +66,23 @@ class App extends React.Component {
         <div>
           <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
         </div>
+        <ListGroup>
+          {this.state.topTracks.map((track) => (
+            <ListGroup.Item as="li" key={track.id}>
+              {track.name}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+
         {this.state.loggedIn && (
-          <Button variant="primary" onClick={() => this.getNowPlaying()}>
-            Check Now Playing
+          <Button
+            variant="primary"
+            onClick={() => {
+              this.getTopTracks();
+              this.getNowPlaying();
+            }}
+          >
+            What's Happening?
           </Button>
         )}
       </div>
