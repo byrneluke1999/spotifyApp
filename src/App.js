@@ -44,13 +44,21 @@ class App extends React.Component {
 
   getNowPlaying() {
     spotifyApi.getMyCurrentPlaybackState().then((response) => {
-      this.setState({
-        nowPlaying: {
-          name: response.item.name,
-          artist: response.item.artists[0].name,
-          albumArt: response.item.album.images[0].url,
-        },
-      });
+      if (response === "") {
+        this.setState({
+          nowPlaying: {
+            name: "You're not listening to anything right now",
+          },
+        });
+      } else {
+        this.setState({
+          nowPlaying: {
+            name: response.item.name,
+            artist: response.item.artists[0].name,
+            albumArt: response.item.album.images[0].url,
+          },
+        });
+      }
     });
   }
 
