@@ -5,6 +5,7 @@ import "./App.css";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/CardGroup";
 
 //Instead of manualling makng an API call I am going to use a library which abstracts pretty much every API call I could use.
 //It was developed by a Spotify engineer, hence why I'm using.
@@ -25,6 +26,7 @@ class App extends React.Component {
       loggedIn: token ? true : false,
       nowPlaying: { name: "Not Checked", artist: "", albumArt: "" },
       topTracks: [],
+      topArtists: [],
     };
   }
   getHashParams() {
@@ -54,8 +56,14 @@ class App extends React.Component {
 
   getTopTracks() {
     spotifyApi
-      .getMyTopTracks((TimeRanges = "short_term"))
+      .getMyTopTracks()
       .then((response) => this.setState({ topTracks: response.items }));
+  }
+
+  getTopArtists() {
+    spotifyApi
+      .getMyTopArtists()
+      .then((response) => this.setState({ topArtists: response.items }));
   }
 
   render() {
@@ -67,31 +75,51 @@ class App extends React.Component {
         <div>
           <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
         </div>
-
-        <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" />
-          <Card.Body>
-            <Card.Title>Your Top Tracks</Card.Title>
-            <Card.Text>The last 6 months</Card.Text>
-          </Card.Body>
-          <ListGroup className="list-group-flush">
-            {this.state.topTracks.map((track) => (
-              <ListGroup.Item as="li" key={track.id}>
-                {track.name}
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-          <Card.Body>
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
-          </Card.Body>
-        </Card>
+        <CardGroup>
+          <Card style={{ width: "18rem" }}>
+            <Card.Img variant="top" />
+            <Card.Body>
+              <Card.Title>Your Top Tracks</Card.Title>
+              <Card.Text>The last 6 months</Card.Text>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              {this.state.topTracks.map((track) => (
+                <ListGroup.Item as="li" key={track.id}>
+                  {track.name}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+            <Card.Body>
+              <Card.Link href="#">Card Link</Card.Link>
+              <Card.Link href="#">Another Link</Card.Link>
+            </Card.Body>
+          </Card>
+          <Card style={{ width: "18rem" }}>
+            <Card.Img variant="top" />
+            <Card.Body>
+              <Card.Title>Your Top Artists</Card.Title>
+              <Card.Text>The last 6 months</Card.Text>
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+              {this.state.topArtists.map((artist) => (
+                <ListGroup.Item as="li" key={artist.id}>
+                  {artist.name}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+            <Card.Body>
+              <Card.Link href="#">Card Link</Card.Link>
+              <Card.Link href="#">Another Link</Card.Link>
+            </Card.Body>
+          </Card>
+        </CardGroup>
         {this.state.loggedIn && (
           <Button
             variant="primary"
             onClick={() => {
               this.getTopTracks();
               this.getNowPlaying();
+              this.getTopArtists();
             }}
           >
             What's Happening?
