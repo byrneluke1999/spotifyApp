@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 
 //Instead of manualling makng an API call I am going to use a library which abstracts pretty much every API call I could use.
 //It was developed by a Spotify engineer, hence why I'm using.
@@ -24,6 +26,7 @@ class App extends React.Component {
     }
     this.state = {
       loggedIn: token ? true : false,
+      user: { name: "" },
       nowPlaying: { name: "Not Checked", artist: "", albumArt: "" },
       topTracks: [],
       topArtists: [],
@@ -74,10 +77,50 @@ class App extends React.Component {
       .then((response) => this.setState({ topArtists: response.items }));
   }
 
+  getUserDetails() {
+    spotifyApi.getMe().then((response) =>
+      this.setState({
+        user: {
+          name: response.display_name,
+        },
+      })
+    );
+  }
+
   render() {
+    this.getUserDetails();
+    let userNav;
+    if (this.state.loggedIn) {
+      userNav = (
+        <Nav.Item className="mr-auto" style={{ color: "#ee6c4d" }}>
+          Signed in as: {this.state.user.name}
+        </Nav.Item>
+      );
+    } else {
+      userNav = (
+        <Nav.Link
+          href="http://localhost:8888"
+          className="mr-auto"
+          style={{ color: "#ee6c4d" }}
+        >
+          Login to Spotify
+        </Nav.Link>
+      );
+    }
     return (
       <div className="App">
-        <a href="http://localhost:8888"> Login to Spotify </a>
+        <Navbar collapseOnSelect bg="dark" variant="dark">
+          <Navbar.Brand href="#home" style={{ color: "#ee6c4d" }}>
+            SpotifyStats
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#features">Features</Nav.Link>
+            </Nav>
+            <Nav>{userNav}</Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <div>{this.state.nowPlaying.name}</div>
         <div>{this.state.nowPlaying.artist}</div>
         <div>
@@ -85,7 +128,7 @@ class App extends React.Component {
         </div>
         <CardGroup>
           <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" />
+            <Card.Img variant="bottom" />
             <Card.Body>
               <Card.Title>Your Top Tracks</Card.Title>
               <Card.Text>The last 6 months</Card.Text>
