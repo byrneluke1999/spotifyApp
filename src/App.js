@@ -122,12 +122,27 @@ class App extends React.Component {
             <Nav>{userNav}</Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div>{this.state.nowPlaying.name}</div>
-        <div>{this.state.nowPlaying.artist}</div>
-        <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
-        </div>
 
+        <Card
+          style={{
+            width: "12rem",
+            borderColor: "#ee6c4d",
+          }}
+          bg="dark"
+        >
+          <Card.Img variant="top" src={this.state.nowPlaying.albumArt} />
+          <Card.Body>
+            <Card.Title style={{ color: "#ee6c4d" }}>
+              Currently Playing:
+            </Card.Title>
+            <Card.Subtitle style={{ color: "#ee6c4d" }}>
+              {this.state.nowPlaying.name}
+            </Card.Subtitle>
+            <Card.Text style={{ color: "white" }}>
+              By {this.state.nowPlaying.artist}
+            </Card.Text>
+          </Card.Body>
+        </Card>
         <CardGroup>
           <Card style={{ width: "18rem", borderColor: "#ee6c4d" }} bg="dark">
             <Card.Img variant="top" />
