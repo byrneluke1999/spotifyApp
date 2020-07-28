@@ -107,6 +107,7 @@ class App extends React.Component {
         </Nav.Link>
       );
     }
+
     return (
       <div className="App">
         <Navbar collapseOnSelect bg="dark" variant="dark">
@@ -126,16 +127,25 @@ class App extends React.Component {
         <div>
           <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
         </div>
+
         <CardGroup>
-          <Card style={{ width: "18rem" }}>
-            <Card.Img variant="bottom" />
+          <Card style={{ width: "18rem", borderColor: "#ee6c4d" }} bg="dark">
+            <Card.Img variant="top" />
             <Card.Body>
-              <Card.Title>Your Top Tracks</Card.Title>
-              <Card.Text>The last 6 months</Card.Text>
+              <Card.Title style={{ color: "#ee6c4d" }}>
+                Your Top Tracks
+              </Card.Title>
+              <Card.Text style={{ color: "white" }}>
+                The last 6 months
+              </Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
               {this.state.topTracks.map((track) => (
-                <ListGroup.Item as="li" key={track.id}>
+                <ListGroup.Item
+                  as="li"
+                  key={track.id}
+                  style={{ backgroundColor: "#484d53", color: "white" }}
+                >
                   {track.name}
                 </ListGroup.Item>
               ))}
@@ -145,15 +155,21 @@ class App extends React.Component {
               <Card.Link href="#">Another Link</Card.Link>
             </Card.Body>
           </Card>
-          <Card style={{ width: "18rem" }}>
+          <Card style={{ width: "18rem", borderColor: "#ee6c4d" }} bg="dark">
             <Card.Img variant="top" />
             <Card.Body>
-              <Card.Title>Your Top Artists</Card.Title>
+              <Card.Title style={{ color: "#ee6c4d" }}>
+                Your Top Artists
+              </Card.Title>
               <Card.Text>The last 6 months</Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
               {this.state.topArtists.map((artist) => (
-                <ListGroup.Item as="li" key={artist.id}>
+                <ListGroup.Item
+                  as="li"
+                  key={artist.id}
+                  style={{ backgroundColor: "#484d53", color: "white" }}
+                >
                   {artist.name}
                 </ListGroup.Item>
               ))}
