@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Accordion from "react-bootstrap/Accordion";
 
 //Instead of manualling makng an API call I am going to use a library which abstracts pretty much every API call I could use.
 //It was developed by a Spotify engineer, hence why I'm using.
@@ -89,6 +90,7 @@ class App extends React.Component {
 
   render() {
     this.getUserDetails();
+    this.getNowPlaying();
     let userNav;
     if (this.state.loggedIn) {
       userNav = (
@@ -148,7 +150,16 @@ class App extends React.Component {
             <Card.Img variant="top" />
             <Card.Body>
               <Card.Title style={{ color: "#ee6c4d" }}>
-                Your Top Tracks
+                {this.state.loggedIn && (
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      this.getTopTracks();
+                    }}
+                  >
+                    Your Top Tracks
+                  </Button>
+                )}
               </Card.Title>
               <Card.Text style={{ color: "white" }}>
                 The last 6 months
@@ -174,7 +185,16 @@ class App extends React.Component {
             <Card.Img variant="top" />
             <Card.Body>
               <Card.Title style={{ color: "#ee6c4d" }}>
-                Your Top Artists
+                {this.state.loggedIn && (
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      this.getTopArtists();
+                    }}
+                  >
+                    Your Top Artists
+                  </Button>
+                )}
               </Card.Title>
               <Card.Text>The last 6 months</Card.Text>
             </Card.Body>
@@ -195,18 +215,6 @@ class App extends React.Component {
             </Card.Body>
           </Card>
         </CardGroup>
-        {this.state.loggedIn && (
-          <Button
-            variant="primary"
-            onClick={() => {
-              this.getTopTracks();
-              this.getNowPlaying();
-              this.getTopArtists();
-            }}
-          >
-            What's Happening?
-          </Button>
-        )}
       </div>
     );
   }
