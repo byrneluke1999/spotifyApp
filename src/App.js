@@ -8,7 +8,6 @@ import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import Accordion from "react-bootstrap/Accordion";
 
 //Instead of manualling makng an API call I am going to use a library which abstracts pretty much every API call I could use.
 //It was developed by a Spotify engineer, hence why I'm using.
@@ -28,7 +27,11 @@ class App extends React.Component {
     this.state = {
       loggedIn: token ? true : false,
       user: { name: "" },
-      nowPlaying: { name: "Not Checked", artist: "", albumArt: "" },
+      nowPlaying: {
+        name: "Not Checked",
+        artist: "Not Checked",
+        albumArt: "img",
+      },
       topTracks: [],
       topArtists: [],
     };
@@ -52,6 +55,8 @@ class App extends React.Component {
         this.setState({
           nowPlaying: {
             name: "You're not listening to anything right now",
+            artist: "",
+            albumArt: "",
           },
         });
       } else {
@@ -124,64 +129,45 @@ class App extends React.Component {
             <Nav>{userNav}</Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div>{this.state.nowPlaying.name}</div>
-        <div>{this.state.nowPlaying.artist}</div>
-        <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
-        </div>
+        <Card
+          style={{
+            width: "12rem",
+            borderColor: "#ee6c4d",
+          }}
+          bg="dark"
+        >
+          <Card.Title style={{ color: "#ee6c4d" }}>
+            Currently Playing:
+          </Card.Title>
+          <Card.Img variant="top" src={this.state.nowPlaying.albumArt} />
+          <Card.Body>
+            <Card.Subtitle style={{ color: "#ee6c4d" }}>
+              {this.state.nowPlaying.name}
+            </Card.Subtitle>
+            <Card.Text style={{ color: "white" }}>
+              By {this.state.nowPlaying.artist}
+            </Card.Text>
+          </Card.Body>
+        </Card>
 
         <CardGroup>
           <Card style={{ width: "18rem", borderColor: "#ee6c4d" }} bg="dark">
             <Card.Img variant="top" />
             <Card.Body>
-              <Card.Title style={{ color: "#ee6c4d" }}>
-                {this.state.loggedIn && (
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      this.getTopTracks();
-                    }}
-                  >
-                    Your Top Tracks
-                  </Button>
-                )}
-              </Card.Title>
+              <Card.Title style={{ color: "#ee6c4d" }}></Card.Title>
               <Card.Text style={{ color: "white" }}>
                 The last 6 months
               </Card.Text>
             </Card.Body>
-            <ListGroup className="list-group-flush">
-              {this.state.topTracks.map((track) => (
-                <ListGroup.Item
-                  as="li"
-                  key={track.id}
-                  style={{ backgroundColor: "#484d53", color: "white" }}
-                >
-                  {track.name}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-            <Card.Body>
-              <Card.Link href="#">Card Link</Card.Link>
-              <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
+            <ListGroup className="list-group-flush"></ListGroup>
           </Card>
           <Card style={{ width: "18rem", borderColor: "#ee6c4d" }} bg="dark">
             <Card.Img variant="top" />
             <Card.Body>
-              <Card.Title style={{ color: "#ee6c4d" }}>
-                {this.state.loggedIn && (
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      this.getTopArtists();
-                    }}
-                  >
-                    Your Top Artists
-                  </Button>
-                )}
-              </Card.Title>
-              <Card.Text>The last 6 months</Card.Text>
+              <Card.Title style={{ color: "#ee6c4d" }}></Card.Title>
+              <Card.Text style={{ color: "white" }}>
+                The last 6 months
+              </Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
               {this.state.topArtists.map((artist) => (
@@ -194,12 +180,19 @@ class App extends React.Component {
                 </ListGroup.Item>
               ))}
             </ListGroup>
-            <Card.Body>
-              <Card.Link href="#">Card Link</Card.Link>
-              <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
           </Card>
         </CardGroup>
+        {this.state.loggedIn && (
+          <Button
+            variant="primary"
+            onClick={() => {
+              this.getTopTracks();
+              this.getTopArtists();
+            }}
+          >
+            What's Happening?
+          </Button>
+        )}
       </div>
     );
   }
