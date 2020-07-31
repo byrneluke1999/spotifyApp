@@ -55,7 +55,7 @@ class App extends React.Component {
         this.setState({
           nowPlaying: {
             name: "You're not listening to anything right now",
-            artist: "",
+            artist: "Nobody",
             albumArt: "",
           },
         });
@@ -124,32 +124,23 @@ class App extends React.Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#features">Features</Nav.Link>
+              <Nav.Item style={{ color: "white" }}> Now Playing: </Nav.Item>
+              <img
+                src={this.state.nowPlaying.albumArt}
+                style={{ width: 50, height: 50, marginTop: -7 }}
+              />
+              <Nav.Item style={{ color: "#ee6c4d" }}>
+                {this.state.nowPlaying.name}
+              </Nav.Item>
+              <Nav.Item style={{ color: "white" }}>by</Nav.Item>
+              <Nav.Item style={{ color: "#ee6c4d" }}>
+                {this.state.nowPlaying.artist}{" "}
+              </Nav.Item>
             </Nav>
+
             <Nav>{userNav}</Nav>
           </Navbar.Collapse>
         </Navbar>
-        <Card
-          style={{
-            width: "12rem",
-            borderColor: "#ee6c4d",
-          }}
-          bg="dark"
-        >
-          <Card.Title style={{ color: "#ee6c4d" }}>
-            Currently Playing:
-          </Card.Title>
-          <Card.Img variant="top" src={this.state.nowPlaying.albumArt} />
-          <Card.Body>
-            <Card.Subtitle style={{ color: "#ee6c4d" }}>
-              {this.state.nowPlaying.name}
-            </Card.Subtitle>
-            <Card.Text style={{ color: "white" }}>
-              By {this.state.nowPlaying.artist}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-
         <CardGroup>
           <Card style={{ width: "18rem", borderColor: "#ee6c4d" }} bg="dark">
             <Card.Img variant="top" />
@@ -184,13 +175,13 @@ class App extends React.Component {
         </CardGroup>
         {this.state.loggedIn && (
           <Button
-            variant="primary"
+            variant="dark"
             onClick={() => {
               this.getTopTracks();
               this.getTopArtists();
             }}
           >
-            What's Happening?
+            Check your top Tracks and Artists
           </Button>
         )}
       </div>
