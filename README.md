@@ -1,4 +1,4 @@
-Checkout the previos commit in the meantime to see the app as described below ; What's newest is under progress.
+Checkout the previous commit in the meantime to see the app as described below ; What's newest is under progress.
 
 I created this app so that I could track my top tracks and artists on Spotify as a user. I love music and when I found out about the Spotify API, I thought it was really cool that I could find my most listened to tracks and artists. I created a react app to play around with the API. It was a learning opportunity for me to use the API ang get to grips with concets such as scope in the web authentication server.
 I also implemented a "Now Playing" feature where users can see the name, artist name and album artwork of a song playing on their account upon loading the page.
